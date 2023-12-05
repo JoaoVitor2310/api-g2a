@@ -1,0 +1,770 @@
+openapi: 3.0.0
+info:
+  title: Integration API - G2A.COM
+  version: 3.256.2
+  description: |
+    API for selling products on g2a.com
+servers:
+  - url: https://sandboxapi.g2a.com
+    description: Sandbox server for testing
+  - url: https://api.g2a.com
+    description: Production server
+tags:
+  - name: Auth
+  - name: Offers
+  - name: Jobs
+  - name: Categories
+  - name: Features
+  - name: Shippings
+  - name: Seller Orders
+  - name: Products
+  - name: Pricing
+  - name: Payments
+  - name: Drop shipping
+    description: |
+      You can find required contract for your implementation of drop shipping functionality under url below
+      
+      https://www.g2a.com/integration-api/documentation/import/contract/
+      
+      Integration API will communicate with your API according to data provided in user panel (Selling > Integration API > Import API).
+
+  - name: Error codes
+    description:
+      $ref: "errors.md"
+
+  - name: Changelog
+    x-traitTag: true
+    description:
+      $ref: 'changelog.md'
+
+x-tagGroups:
+  - name: General
+    tags:
+      - Auth
+      - Jobs
+      - Pricing
+      - Payments
+  - name: Sales
+    tags:
+      - Seller Orders
+      - Offers
+      - Products
+  - name: Others
+    tags:
+      - Drop shipping
+      - Error codes
+      - Changelog
+
+paths:
+  /v3/sales/offers:
+    post:
+      tags:
+        - Offers
+      summary: Add offer request
+      description: Creates new offer and returns jobId
+      operationId: addOffer
+      requestBody:
+        $ref: 'requestBodies.yml#/AddOffer'
+      responses:
+        '202':
+          $ref: 'responses.yml#/AddOfferResponse202'
+        '400':
+          $ref: 'responses.yml#/BadRequestExtended'
+        '401':
+          $ref: 'responses.yml#/Unauthorized'
+        '409':
+          $ref: 'responses.yml#/AddOfferResponse409'
+        '500':
+          $ref: 'responses.yml#/InternalServerError'
+        '502':
+          $ref: 'responses.yml#/BadGateway'
+    get:
+      tags:
+        - Offers
+      summary: Get offers list
+      description: Returns offers list
+      operationId: getOffers
+      parameters:
+        - $ref: 'parameters.yml#/ItemsPerPage'
+        - $ref: 'parameters.yml#/Page'
+        - $ref: 'parameters.yml#/UpdatedAtFrom'
+        - $ref: 'parameters.yml#/OfferType'
+        - $ref: 'parameters.yml#/OfferActive'
+      responses:
+        '200':
+          $ref: 'responses.yml#/GetOffers200'
+        '400':
+          $ref: 'responses.yml#/BadRequest'
+        '401':
+          $ref: 'responses.yml#/Unauthorized'
+        '500':
+          $ref: 'responses.yml#/InternalServerError'
+        '502':
+          $ref: 'responses.yml#/BadGateway'
+  /v3/sales/offers/inventory:
+    post:
+      tags:
+        - Offers
+      summary: Create offer inventory keys collection
+      description: Creates inventory keys collection used in process of creating offer
+      operationId: postOffersInventory
+      requestBody:
+        $ref: 'requestBodies.yml#/InventoryKeysCollectionPost'
+      responses:
+        '200':
+          $ref: 'responses.yml#/CreateInventory200'
+        '400':
+          $ref: 'responses.yml#/BadRequestExtended'
+        '401':
+          $ref: 'responses.yml#/Unauthorized'
+        '409':
+          $ref: 'responses.yml#/Conflict'
+        '500':
+          $ref: 'responses.yml#/InternalServerError'
+        '502':
+          $ref: 'responses.yml#/BadGateway'
+  /v3/sales/offers/{offerId}/inventory:
+    get:
+      tags:
+        - Offers
+      summary: Get offers inventory items list
+      description: Returns offers inventory items list
+      operationId: getOffersInventory
+      parameters:
+        - $ref: 'parameters.yml#/ItemsPerPage'
+        - $ref: 'parameters.yml#/Page'
+        - $ref: 'parameters.yml#/OfferUuidParam'
+      responses:
+        '200':
+          $ref: 'responses.yml#/GetOffersInventory200'
+        '400':
+          $ref: 'responses.yml#/BadRequest'
+        '401':
+          $ref: 'responses.yml#/Unauthorized'
+        '500':
+          $ref: 'responses.yml#/InternalServerError'
+        '502':
+          $ref: 'responses.yml#/BadGateway'
+    delete:
+      tags:
+        - Offers
+      summary: Delete offers inventory item list
+      description: Deletes offers inventory items list
+      operationId: deleteOffersInventory
+      parameters:
+        - $ref: 'parameters.yml#/OfferUuidParam'
+      responses:
+        '204':
+          description: No Content
+        '400':
+          $ref: 'responses.yml#/BadRequest'
+        '401':
+          $ref: 'responses.yml#/Unauthorized'
+        '404':
+          $ref: 'responses.yml#/NotFound'
+        '500':
+          $ref: 'responses.yml#/InternalServerError'
+        '502':
+          $ref: 'responses.yml#/BadGateway'
+
+  /v3/sales/offers/{offerId}/inventory/{itemId}:
+    delete:
+      tags:
+        - Offers
+      summary: Delete key from offers inventory item list
+      description: Deletes key from offers inventory items list
+      operationId: deleteKeyFromOffersInventory
+      parameters:
+        - $ref: 'parameters.yml#/OfferUuidParam'
+        - $ref: 'parameters.yml#/ItemId'
+      responses:
+        '204':
+          description: No Content
+        '400':
+          $ref: 'responses.yml#/BadRequest'
+        '401':
+          $ref: 'responses.yml#/Unauthorized'
+        '404':
+          $ref: 'responses.yml#/NotFound'
+        '500':
+          $ref: 'responses.yml#/InternalServerError'
+        '502':
+          $ref: 'responses.yml#/BadGateway'
+
+  /v3/sales/offers/{offerId}:
+    parameters:
+      - $ref: 'parameters.yml#/OfferUuidParam'
+    get:
+      tags:
+        - Offers
+      summary: Get offer
+      description: Returns offer details
+      operationId: getOffer
+      responses:
+        '200':
+          $ref: 'responses.yml#/GetOffer200'
+        '400':
+          $ref: 'responses.yml#/BadRequest'
+        '401':
+          $ref: 'responses.yml#/Unauthorized'
+        '404':
+          $ref: 'responses.yml#/NotFound'
+        '500':
+          $ref: 'responses.yml#/InternalServerError'
+        '502':
+          $ref: 'responses.yml#/BadGateway'
+    patch:
+      tags:
+        - Offers
+      summary: Update offer - partial
+      description: Partial offer update
+      operationId: updateOfferPartial
+      requestBody:
+        $ref: 'requestBodies.yml#/ModifyOffer'
+      responses:
+        '202':
+          $ref: 'responses.yml#/ModifyOfferResponse202'
+        '400':
+          $ref: 'responses.yml#/BadRequest'
+        '401':
+          $ref: 'responses.yml#/Unauthorized'
+        '404':
+          $ref: 'responses.yml#/NotFound'
+        '500':
+          $ref: 'responses.yml#/InternalServerError'
+        '502':
+          $ref: 'responses.yml#/BadGateway'
+    delete:
+      tags:
+        - Offers
+      summary: Delete offer
+      description: Deletes physical offer
+      operationId: deleteOffer
+      responses:
+        '200':
+          $ref: 'responses.yml#/DeleteOffer202'
+        '400':
+          $ref: 'responses.yml#/BadRequest'
+        '401':
+          $ref: 'responses.yml#/Unauthorized'
+        '404':
+          $ref: 'responses.yml#/NotFound'
+        '500':
+          $ref: 'responses.yml#/InternalServerError'
+        '502':
+          $ref: 'responses.yml#/BadGateway'
+
+  /v3/sales/orders:
+    get:
+      tags:
+        - Seller Orders
+      summary: Get seller orders list
+      description: Returns seller orders list
+      operationId: getSellerOrders
+      deprecated: true
+      parameters:
+        - $ref: 'parameters.yml#/ItemsPerPage'
+        - $ref: 'parameters.yml#/Page'
+        - $ref: 'parameters.yml#/CreatedAtFrom'
+        - $ref: 'parameters.yml#/CreatedAtTo'
+        - $ref: 'parameters.yml#/OrderId'
+        - $ref: 'parameters.yml#/BuyerEmail'
+        - $ref: 'parameters.yml#/UpdatedAtFrom'
+        - $ref: 'parameters.yml#/OrderByCreatedAt'
+      responses:
+        '200':
+          $ref: 'responses.yml#/GetSellerOrders200'
+        '400':
+          $ref: 'responses.yml#/BadRequest'
+        '401':
+          $ref: 'responses.yml#/Unauthorized'
+        '500':
+          $ref: 'responses.yml#/InternalServerError'
+        '502':
+          $ref: 'responses.yml#/BadGateway'
+
+  /v3/sales/orders/{orderId}:
+    parameters:
+      - $ref: 'parameters.yml#/OrderIdInPath'
+    get:
+      tags:
+        - Seller Orders
+      summary: Get seller order
+      description: Returns seller order details
+      operationId: getSellerOrder
+      deprecated: true
+      responses:
+        '200':
+          $ref: 'responses.yml#/GetSellerOrder200'
+        '400':
+          $ref: 'responses.yml#/BadRequest'
+        '401':
+          $ref: 'responses.yml#/Unauthorized'
+        '500':
+          $ref: 'responses.yml#/InternalServerError'
+        '502':
+          $ref: 'responses.yml#/BadGateway'
+
+  /v4/sales/orders:
+    get:
+      tags:
+        - Seller Orders
+      summary: Get seller orders list
+      description: Returns seller orders list
+      operationId: getSellerOrdersV4
+      parameters:
+        - $ref: 'parameters.yml#/OrderId'
+        - $ref: 'parameters.yml#/CreatedAtFrom'
+        - $ref: 'parameters.yml#/CreatedAtTo'
+        - $ref: 'parameters.yml#/CustomerId'
+        - $ref: 'parameters.yml#/Statuses'
+        - $ref: 'parameters.yml#/ProductName'
+        - $ref: 'parameters.yml#/SortBy'
+        - $ref: 'parameters.yml#/SortStrategy'
+        - $ref: 'parameters.yml#/Page'
+        - $ref: 'parameters.yml#/ItemsPerPage'
+      responses:
+        '200':
+          $ref: 'responses.yml#/GetSellerOrdersV4200'
+        '400':
+          $ref: 'responses.yml#/BadRequestV2'
+        '500':
+          $ref: 'responses.yml#/InternalServerErrorV2'
+        '502':
+          $ref: 'responses.yml#/BadGatewayV2'
+
+  /v4/sales/orders/{orderId}:
+    parameters:
+      - $ref: 'parameters.yml#/OrderIdInPath'
+    get:
+      tags:
+        - Seller Orders
+      summary: Get seller order
+      description: Returns seller order details
+      operationId: getSellerOrderV4
+      responses:
+        '200':
+          $ref: 'responses.yml#/GetSellerOrderV4200'
+        '404':
+          $ref: 'responses.yml#/NotFoundErrorV2'
+        '500':
+          $ref: 'responses.yml#/InternalServerErrorV2'
+        '502':
+          $ref: 'responses.yml#/BadGatewayV2'
+
+  /v3/sales/orders/{orderId}/items/{itemId}/packages:
+    parameters:
+      - $ref: 'parameters.yml#/OrderIdInPath'
+      - $ref: 'parameters.yml#/ItemId'
+    post:
+      deprecated: true
+      summary: Add order shipping
+      description: Add order shipping - tracking number and tracking url
+      operationId: addOrderShipping
+      requestBody:
+        $ref: 'requestBodies.yml#/OrderShippingPost'
+      responses:
+        '200':
+          $ref: 'responses.yml#/OrderShippingPost200'
+        '400':
+          $ref: 'responses.yml#/BadRequest'
+        '401':
+          $ref: 'responses.yml#/Unauthorized'
+        409:
+          $ref: 'responses.yml#/Conflict'
+        '500':
+          $ref: 'responses.yml#/InternalServerError'
+        '502':
+          $ref: 'responses.yml#/BadGateway'
+
+  /v3/sales/orders/{orderId}/items/{itemId}/packages/{packageId}:
+    parameters:
+      - $ref: 'parameters.yml#/OrderIdInPath'
+      - $ref: 'parameters.yml#/ItemId'
+      - $ref: 'parameters.yml#/PackageId'
+    patch:
+      deprecated: true
+      summary: Update order shipping
+      description: Update order shipping - tracking number and tracking url
+      operationId: updateOrderShipping
+      requestBody:
+        $ref: 'requestBodies.yml#/OrderShippingPatch'
+      responses:
+        '204':
+          description: No Content
+        '400':
+          $ref: 'responses.yml#/BadRequest'
+        '401':
+          $ref: 'responses.yml#/Unauthorized'
+        '404':
+          $ref: 'responses.yml#/NotFound'
+        '500':
+          $ref: 'responses.yml#/InternalServerError'
+        '502':
+          $ref: 'responses.yml#/BadGateway'
+
+  /v1/products:
+    get:
+      tags:
+        - Products
+      summary: Get products list
+      description: Returns products list
+      operationId: getProducts
+      parameters:
+        - $ref: 'parameters.yml#/PageV1'
+        - $ref: 'parameters.yml#/ProductIDV1'
+        - $ref: 'parameters.yml#/MinQtyV1'
+        - $ref: 'parameters.yml#/MinPriceFromV1'
+        - $ref: 'parameters.yml#/MinPriceToV1'
+        - $ref: 'parameters.yml#/IncludeOutOfStockV1'
+        - $ref: 'parameters.yml#/UpdatedAtFromV1'
+        - $ref: 'parameters.yml#/UpdatedAtToV1'
+      responses:
+        '200':
+          $ref: 'responses.yml#/GetProducts200'
+        '400':
+          $ref: 'responses.yml#/BadRequest'
+        '401':
+          $ref: 'responses.yml#/Unauthorized'
+        '500':
+          $ref: 'responses.yml#/InternalServerError'
+        '502':
+          $ref: 'responses.yml#/BadGateway'
+
+  /v3/jobs/{jobId}:
+    parameters:
+      - $ref: 'parameters.yml#/JobId'
+    get:
+      tags:
+        - Jobs
+      summary: Get job
+      description: Returns job status
+      operationId: getJob
+      responses:
+        '200':
+          $ref: 'responses.yml#/GetJob200'
+        '400':
+          $ref: 'responses.yml#/BadRequest'
+        '401':
+          $ref: 'responses.yml#/Unauthorized'
+        '404':
+          $ref: 'responses.yml#/NotFound'
+        '500':
+          $ref: 'responses.yml#/InternalServerError'
+
+  /v3/products/categories:
+    get:
+      deprecated: true
+      tags:
+        - Categories
+      summary: Get categories list
+      description: Returns list of available categories
+      operationId: getProductCategories
+      responses:
+        '200':
+          $ref: 'responses.yml#/GetCategories200'
+        '400':
+          $ref: 'responses.yml#/BadRequest'
+        '401':
+          $ref: 'responses.yml#/Unauthorized'
+        '500':
+          $ref: 'responses.yml#/InternalServerError'
+        '502':
+          $ref: 'responses.yml#/BadGateway'
+
+  /v3/products/features:
+    parameters:
+      - $ref: 'parameters.yml#/CategoryId'
+    get:
+      deprecated: true
+      tags:
+        - Features
+      summary: Get features
+      description: Returns list of available features for product
+      operationId: getProductFeatures
+      responses:
+        '200':
+          $ref: 'responses.yml#/GetProductFeatures200'
+        '400':
+          $ref: 'responses.yml#/BadRequest'
+        '401':
+          $ref: 'responses.yml#/Unauthorized'
+        '500':
+          $ref: 'responses.yml#/InternalServerError'
+        '502':
+          $ref: 'responses.yml#/BadGateway'
+
+  /v3/products/features/{featureId}:
+    parameters:
+      - $ref: 'parameters.yml#/FeatureIdParam'
+    get:
+      deprecated: true
+      tags:
+        - Features
+      summary: Get feature details
+      description: Returns product feature details with available options
+      operationId: getProductFeaturesOptions
+      responses:
+        '200':
+          $ref: 'responses.yml#/GetProductFeature200'
+        '400':
+          $ref: 'responses.yml#/BadRequest'
+        '401':
+          $ref: 'responses.yml#/Unauthorized'
+        '404':
+          $ref: 'responses.yml#/NotFound'
+        '500':
+          $ref: 'responses.yml#/InternalServerError'
+        '502':
+          $ref: 'responses.yml#/BadGateway'
+
+  /v3/products/tags:
+    parameters:
+      - $ref: 'parameters.yml#/CategoryId'
+    get:
+      deprecated: true
+      tags:
+        - Features
+      summary: Get tags
+      description: Returns list of available tags for product
+      operationId: getProductTags
+      responses:
+        '200':
+          $ref: 'responses.yml#/GetProductTags200'
+        '400':
+          $ref: 'responses.yml#/BadRequest'
+        '401':
+          $ref: 'responses.yml#/Unauthorized'
+        '500':
+          $ref: 'responses.yml#/InternalServerError'
+        '502':
+          $ref: 'responses.yml#/BadGateway'
+
+  /v3/products/brands:
+    parameters:
+      - $ref: 'parameters.yml#/CategoryIdRequired'
+    get:
+      deprecated: true
+      tags:
+        - Features
+      summary: Get brands
+      description: Returns list of available brands for product
+      operationId: getProductBrands
+      responses:
+        '200':
+          $ref: 'responses.yml#/GetProductBrands200'
+        '400':
+          $ref: 'responses.yml#/BadRequest'
+        '401':
+          $ref: 'responses.yml#/Unauthorized'
+        '500':
+          $ref: 'responses.yml#/InternalServerError'
+        '502':
+          $ref: 'responses.yml#/BadGateway'
+
+  /v3/sales/shippings:
+    get:
+      deprecated: true
+      tags:
+        - Shippings
+      summary: Get shippings
+      description: Returns shippings methods
+      operationId: getShippings
+      responses:
+        '200':
+          $ref: 'responses.yml#/GetShippingTemplates200'
+        '401':
+          $ref: 'responses.yml#/Unauthorized'
+        '500':
+          $ref: 'responses.yml#/InternalServerError'
+        '502':
+          $ref: 'responses.yml#/BadGateway'
+
+  /v3/pricing/simulations:
+    get:
+      tags:
+        - Pricing
+      summary: Get prices simulations
+      description: Simulates prices and profits for products
+      operationId: getPricingSimulations
+      parameters:
+        - $ref: 'parameters.yml#/OfferPrice'
+        - $ref: 'parameters.yml#/ProductVariantID'
+      responses:
+        '200':
+          $ref: 'responses.yml#/GetPricingSimulations200'
+        '400':
+          $ref: 'responses.yml#/BadRequest'
+        '401':
+          $ref: 'responses.yml#/Unauthorized'
+        '500':
+          $ref: 'responses.yml#/InternalServerError'
+
+  /v3/oauth/token:
+    post:
+      tags:
+        - Auth
+      summary: Get token
+      operationId: getToken
+      servers:
+        - url: https://sandboxapi.g2a.com
+      description: Get API token to make requests. Error codes has been described here https://tools.ietf.org/html/rfc6749#section-5.2
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              additionalProperties: false
+              properties:
+                grant_type:
+                  type: string
+                  example: client_credentials
+                  description: Grant type
+                  enum: [ "client_credentials" ]
+                client_id:
+                  type: string
+                  example: DUoLLTRkjPonKNmu
+                  description: Client identifier
+                client_secret:
+                  type: string
+                  example: yIHkLYOiLDuutZstpKNaVQxqQJNNFmGN
+                  description: Client secret
+              required:
+                - grant_type
+                - client_id
+                - client_secret
+      responses:
+        '200':
+          $ref: 'responses.yml#/GetOauthToken200'
+        '400':
+          $ref: 'responses.yml#/GetOauthToken400'
+        '401':
+          $ref: 'responses.yml#/GetOauthToken401'
+        403:
+          $ref: 'responses.yml#/GetOauthToken403'
+        '500':
+          $ref: 'responses.yml#/GetOauthToken500'
+        503:
+          $ref: 'responses.yml#/GetOauthToken503'
+
+  /v3/payments/balance:
+    get:
+      tags:
+        - Payments
+      summary: Get user balance
+      description: Returns user G2A Pay account balance
+      operationId: getUserBalance
+      responses:
+        '200':
+          $ref: 'responses.yml#/GetUserBalance200'
+        '400':
+          $ref: 'responses.yml#/BadRequest'
+        '401':
+          $ref: 'responses.yml#/Unauthorized'
+        '404':
+          $ref: 'responses.yml#/NotFound'
+
+  /v3/products/{productId}/offers:
+    get:
+      tags:
+        - Offers
+      summary: Get offers for product
+      description: Returns product offers list
+      operationId: getOffersForProduct
+      parameters:
+        - $ref: 'parameters.yml#/ProductIdParam'
+        - $ref: 'parameters.yml#/VisibilityParam'
+        - $ref: 'parameters.yml#/CountryCodeParam'
+        - $ref: 'parameters.yml#/Page'
+        - $ref: 'parameters.yml#/ItemsPerPage'
+      responses:
+        '200':
+          $ref: 'responses.yml#/GetProductOffers200'
+        '400':
+          $ref: 'responses.yml#/BadRequestExtended'
+        '429':
+          $ref: 'responses.yml#/TooManyRequests'
+        '500':
+          $ref: 'responses.yml#/InternalServerError'
+        '502':
+          $ref: 'responses.yml#/BadGateway'
+
+  /v3/sales/bestsellers:
+    get:
+      tags:
+        - Products
+      summary: Get Bestsellers list
+      description: Returns a list of best-selling products on marketplace
+      operationId: bestsellersList
+      parameters:
+        - $ref: 'parameters.yml#/DaysNumberBestsellers'
+        - $ref: 'parameters.yml#/Page'
+        - in: query
+          name: itemsPerPage
+          description: Number of items per page
+          schema:
+            type: integer
+            format: int32
+            enum: [ 10, 20, 50, 100 ]
+            default: 100
+        - in: query
+          name: productIds
+          description: Filters by product IDs
+          schema:
+            type: array
+            items:
+              $ref: 'schemas.yml#/ProductId'
+      responses:
+        '200':
+          $ref: 'responses.yml#/BestsellersList200'
+        '400':
+          $ref: 'responses.yml#/BadRequestV2'
+        '429':
+          $ref: 'responses.yml#/TooManyRequestsV2'
+        '500':
+          $ref: 'responses.yml#/InternalServerErrorV2'
+        '502':
+          $ref: 'responses.yml#/BadGatewayV2'
+
+  /v4/sales/oosproducts:
+    get:
+      tags:
+        - Products
+      summary: Get the most viewed out-of-stock products
+      description: Returns a list of the most viewed out-of-stock products on marketplace
+      operationId: oosProductsList
+      parameters:
+        - $ref: 'parameters.yml#/DaysNumber'
+        - $ref: 'parameters.yml#/Page'
+        - in: query
+          name: itemsPerPage
+          description: Number of items per page
+          schema:
+            type: integer
+            format: int32
+            enum: [ 10, 20, 50, 100 ]
+            default: 100
+      responses:
+        '200':
+          $ref: 'responses.yml#/OOSProductsList200'
+        '400':
+          $ref: 'responses.yml#/BadRequestV2'
+        '429':
+          $ref: 'responses.yml#/TooManyRequestsV2'
+        '500':
+          $ref: 'responses.yml#/InternalServerErrorV2'
+        '502':
+          $ref: 'responses.yml#/BadGatewayV2'
+
+components:
+  securitySchemes:
+    oAuth2:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: /oauth/token
+          scopes: { }
+
+security:
+  - oAuth2: [ ]
