@@ -5,7 +5,7 @@ const path = require('path');
 function readExcel(filePath) {
     try {
         // Carrega o arquivo Excel
-        const workbook = XLSX.readFile(filePath);
+        const workbook = XLSX.readFile(filePath, { cellFormula: true });
 
         // Assume que estamos interessados na primeira planilha (índice 0)
         const sheetName = workbook.SheetNames[0];
@@ -29,7 +29,16 @@ function readExcel(filePath) {
             const endIdx = Math.min(startIdx + itemsPerPage, sortedData.length);
             const paginatedData = sortedData.slice(startIdx, endIdx);
 
-            console.log(`Página ${Math.floor(startIdx / itemsPerPage) + 1}:`, paginatedData);
+            console.log(`Página ${Math.floor(startIdx / itemsPerPage) + 1}:`, paginatedData.map(item => ({
+                'Jogo HB': String(item['Jogo HB']),
+                'Valor G2A': item['Valor G2A'],
+                'Gamivo / G2A - Taxa': item['Gamivo / G2A - Taxa'],
+                'V. R. (Simulação)': item['V. R. (Simulação)'],
+                'Jogo Entregue': item['Jogo Entregue'],
+                'Valor Mín. Venda': item['Valor Mín. Venda'],
+                'Qtd': item['Qtd'],
+                'Receita (R$)': item['Receita (R$)'],
+            })));
 
             startIdx = endIdx;
         }
@@ -38,6 +47,12 @@ function readExcel(filePath) {
         return sortedData.map(item => ({
             'Jogo HB': String(item['Jogo HB']),
             'Valor G2A': item['Valor G2A'],
+            'Gamivo / G2A - Taxa': item['Gamivo / G2A - Taxa'],
+            'V. R. (Simulação)': item['V. R. (Simulação)'],
+            'Jogo Entregue': item['Jogo Entregue'],
+            'Valor Mín. Venda': item['Valor Mín. Venda'],
+            'Qtd': item['Qtd'],
+            'Receita (R$)': item['Receita (R$)'],
         }));
     } catch (error) {
         // Lida com erros
