@@ -1,0 +1,25 @@
+###
+GET http://localhost:4000/api/products/productsBySlug
+Content-Type: application/json
+
+{
+    "gameName": "CRYPTARK EN Global"
+}
+
+###
+GET http://localhost:4000/api/products/productsList
+
+###
+GET http://localhost:4000/api/products/productIds
+
+### O número do meio que é o jogo impossível
+    #"myProductIds": [31004, 1622240, 142477]
+POST http://localhost:4000/api/products/compareAll
+Content-Type: application/json
+
+{
+    "myProductIds": [31004, 1622240, 142477]
+}
+
+### Dá p descobrir o nome do jogo enviando o id para essa rota
+GET http://localhost:4000/api/products/compareById/40607                  

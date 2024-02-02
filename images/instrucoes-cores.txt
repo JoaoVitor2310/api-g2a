@@ -1,0 +1,14 @@
+quando for fonte azul claro, ignora
+quando for fonte rosa ignora
+quando for fonte azul escuro ignora
+quando for fonte vermelho ignora
+
+fonte larana
+verde claro chave ja vendida
+
+fonte preta nao vendida
+
+quando a coluna chave recebida for preenchida de preto, mas a coluna jogo HB estiver sem preenchimento, foi posto a venda, mas ainda nao vendeu
+
+
+
