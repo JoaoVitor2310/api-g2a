@@ -1,39 +1,23 @@
 ### Offerlist normal
 GET http://localhost:4000/api/offers/offersList?itemsPerPage=100&page=1&active=true
 
-### returnOfferId
-GET http://localhost:4000/api/offers/returnOfferId/37305
-
-### OfferKeys
-GET http://localhost:4000/api/offers/offerKeys/2506423 
-
-### Offerlist com loop p descobrir jogos impossíveis
-GET http://localhost:4000/api/offers/offersList?ids=74797,78621,26374
-
-###
-POST http://localhost:4000/api/offers/createOffer
-Content-Type: application/json
-
-{
-    "product": "",
-    "wholesale_mode": "0",
-    "seller_price": 15,
-    "tier_one_seller_price": "",
-    "tier_two_seller_price": "",
-    "status": 1,
-    "keys": 3,
-    "is_preorder": false
-}
+### Offerlist com loop
+GET http://localhost:4000/api/offers/returnOffersData
 
 ### searchOfferById productId = 45746
-GET http://localhost:4000/api/offers/search/2783132
+GET http://localhost:4000/api/offers/searchOfferById/e97cd380-4e5d-4862-9492-f8c540f17f79
+# Content-Type: application/json
+
+# {
+#     "offerId": "be02b0cc-f203-43a7-a5ef-ad49acde4164"
+# }
 
 ### O productId é "inútil" para editar
-PUT http://localhost:4000/api/offers/editOffer
-Content-Type: application/json
+PATCH http://localhost:4000/api/offers/editOffer/
+# Content-Type: application/json
 
-{
-    "productId": 1767, 
-    "menorPreco": 0.54,
-    "offerId": 2783132
-}
+# {
+#     "productId": 1767, 
+#     "menorPreco": 0.54,
+#     "offerId": 2783132
+# }

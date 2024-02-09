@@ -1,25 +1,24 @@
-###
-GET http://localhost:4000/api/products/productsBySlug
+#
+POST http://localhost:4000/api/products/compareById
 Content-Type: application/json
 
+# {
+#     "myOffers": [
+#   {
+#     "productId": "10000244894003",
+#     "offerId": "9119d933-4af8-4e6c-ba76-df23ad970100",
+#     "offerType": "game",
+#     "offerSize": 1
+#   },
+#   {
+#     "productId": "10000029506002",
+#     "offerId": "c7baee58-dad8-4642-818c-70d9a820f179",
+#     "offerType": "game",
+#     "offerSize": 1
+#   }]
+# }
+
 {
-    "gameName": "CRYPTARK EN Global"
+    "productId": 10000068327002, 
+    "offerId": 1
 }
-
-###
-GET http://localhost:4000/api/products/productsList
-
-###
-GET http://localhost:4000/api/products/productIds
-
-### O número do meio que é o jogo impossível
-    #"myProductIds": [31004, 1622240, 142477]
-POST http://localhost:4000/api/products/compareAll
-Content-Type: application/json
-
-{
-    "myProductIds": [31004, 1622240, 142477]
-}
-
-### Dá p descobrir o nome do jogo enviando o id para essa rota
-GET http://localhost:4000/api/products/compareById/40607                  

@@ -3,15 +3,15 @@ const router = express.Router();
 
 
 //Controllers
-const {offerList, createOffer, searchOfferById, editOffer, offerKeys, returnOfferId} = require('../controllers/OffersController');
+const {offerList, searchOfferById, editOffer, offerKeys, returnOfferId, returnOffersData} = require('../controllers/OffersController');
 
 //Middlewares
 
 //Routes
 router.get('/offersList', offerList);
-router.post('/createOffer', createOffer);
-router.get('/search/:id', searchOfferById);
-router.put('/editOffer', editOffer);
+router.get('/returnOffersData', returnOffersData);
+router.get('/searchOfferById/:offerId', searchOfferById);
+router.patch('/editOffer', editOffer);
 router.get('/returnOfferId/:productId', returnOfferId);
 router.get('/offerKeys/:offerId', offerKeys);
 

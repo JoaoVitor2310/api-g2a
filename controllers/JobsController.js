@@ -12,25 +12,21 @@ const attPrices = async (req, res) => {
     // Recebe os jogos que estão a venda, compara para saber se tem o melhor preço e edita a oferta
 
     // Passo a passo
-    // 1- Receber a lista das nossas ofertas(/productIds). FEITO
-    // 2 - Comparar com os vendedores concorrentes daquele jogo(/compareById). FEITO
-    // 3 - Buscar o offerId daquele jogo. FEITO
-    // 4 - Editar oferta para inserir o preço atualizado. FEITO
+    // 1- Receber a lista das nossas ofertas(/returnOffersData). FEITO
+    // 2 - Comparar com os vendedores concorrentes daquele jogo(/compareById). EM PROGRESSO
+    // 3 - Buscar o offerId daquele jogo.
+    // 4 - Editar oferta para inserir o preço atualizado.
 
     const hora1 = new Date().toLocaleTimeString();
 
     try {
-        var keysInXLSX = [], keysWithHttps = [], jogosAtualizados = [];
+        let jogosAtualizados = [];
 
-        const response1 = await axios.get(`${nossaURL}/api/products/productIds`, {
-            headers: {
-                'Authorization': `Bearer ${token}`
-            },
-        });
-        const myProductIds = response1.data;
-
+        const response1 = await axios.get(`${nossaURL}/api/offers/returnOffersData`);
+        const myOffers = response1.data;
+        res.json(myOffers);
         //Comparar somente um por vez
-        for (let productId of myProductIds) {
+        for (let offer of myOffers) {
             // let productId = 34229;
 
             try {
@@ -73,7 +69,7 @@ const attPrices = async (req, res) => {
         res.json({ jogosAtualizados, error: false });
     } catch (error) {
         console.error(error);
-        res.status(500).json({ error: 'Erro ao consultar a nossa API /productIds.' });
+        res.status(500).json({ error: 'Erro ao consultar a nossa API /returnOffersData.' });
     }
 }
 
