@@ -5,7 +5,7 @@ GET http://localhost:4000/api/offers/offersList?itemsPerPage=100&page=1&active=t
 GET http://localhost:4000/api/offers/returnOffersData
 
 ### searchOfferById productId = 45746
-GET http://localhost:4000/api/offers/searchOfferById/e97cd380-4e5d-4862-9492-f8c540f17f79
+GET http://localhost:4000/api/offers/searchOfferById/611f30fe-68b4-450a-a842-03376edc6c61
 # Content-Type: application/json
 
 # {

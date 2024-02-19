@@ -34,21 +34,12 @@ const returnOffersData = async (req, res) => {
       // Offset = A partir de qual jogo vai mostrar
       // Limit = Limite por página, não pode ser maior que 100
 
-      // let { itemsPerPage = 100, page = 1, active = true } = req.query;
       let itemsPerPage = 100, page = 1, active = true;
 
       const token = await getToken();
       let myOffers = [], quantidade = 0, quatidadeTotal = 0, isDone = false, impossibleGame = 0;
 
       try {
-            // Offerlist normal
-            // const response = await axios.get(`${url}/v3/sales/offers?itemsPerPage=${itemsPerPage}&page=${page}&active=${active}`, {
-            //       headers: {
-            //             'Authorization': `Bearer ${token}`
-            //       },
-            // });
-            // res.json(response.data);
-
             while (!isDone) {
                   try {
                         const response = await axios.get(`${url}/v3/sales/offers?itemsPerPage=${itemsPerPage}&page=${page}&active=${active}`, {
@@ -69,15 +60,17 @@ const returnOffersData = async (req, res) => {
 
                         for (let i = 0; i < response.data.data.length; i++) {
                               let productId = response.data.data[i].product.id;
+                              let gameName = response.data.data[i].product.name;
+                              // console.log(gameName);
                               let offerId = response.data.data[i].id;
                               let offerType = response.data.data[i].type;
                               let offerSize = response.data.data[i].inventory.size;
 
-                              if (response.data.data[i].price > 20) {
-                                    res.json(response.data.data[i]);
-                                    isDone = true;
-                                    return;
-                              }
+                              // if (response.data.data[i].createdAt == response.data.data[i].updatedAt) { // Debug: Procurando jogo sem edições
+                              //       res.json(response.data.data[i]);
+                              //       isDone = true;
+                              //       return;
+                              // }
 
                               if (response.data.data[i].inventory.size == response.data.data[i].inventory.sold) {
                                     impossibleGame++;
@@ -88,6 +81,7 @@ const returnOffersData = async (req, res) => {
                                     newGame.offerId = offerId;
                                     newGame.offerType = offerType;
                                     newGame.offerSize = offerSize;
+                                    newGame.gameName = gameName;
                                     myOffers.push(newGame);
                               }
 
@@ -143,14 +137,15 @@ const editOffer = async (req, res) => {
                   active: true,
                   archive: false,
                   price: {
-                        retail: "79.0",
+                        retail: "1.14",
                         // business: "0.57"
                   }
             }
       }
+      
 
       const token = await getToken();
-      const offerId = "e97cd380-4e5d-4862-9492-f8c540f17f79";
+      const offerId = "630de4e0-a837-48d9-a7f3-47395d550156";
 
       try {
             // Offerlist normal
@@ -232,7 +227,6 @@ module.exports = {
       offerList,
       searchOfferById,
       editOffer,
-      offerKeys,
       returnOfferId,
       returnOffersData
 }

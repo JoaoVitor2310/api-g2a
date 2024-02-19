@@ -16,25 +16,6 @@ app.get('/', (req, res) => {
 
 app.use('/', router);
 
-// app.get('/token', async (req, res) => {
-//       try {
-//             // Faça a consulta à outra API usando Axios ou a biblioteca de sua escolha
-//             const grant_type = "client_credentials";
-
-//             const response = await axios.post(`${url}/oauth/token?grant_type=${grant_type}&client_id=${client_id}&client_secret=${client_secret}`, { // url + endpoint + token G2A
-//                   // headers: {
-//                   //       'Authorization': `Bearer ${token}`
-//                   // },
-//             });
-//             // Retorne os dados da consulta
-//             res.json(response.data); // nossa resposta
-//       } catch (error) {
-//             console.error(error);
-//             res.status(500).json({ error: 'Erro ao consultar a API externa.' });
-//       }
-// })
-
-
 const port = process.env.PORT || 4000;
 
 app.listen(port, () => {

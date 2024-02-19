@@ -13,6 +13,5 @@ router.get('/returnOffersData', returnOffersData);
 router.get('/searchOfferById/:offerId', searchOfferById);
 router.patch('/editOffer', editOffer);
 router.get('/returnOfferId/:productId', returnOfferId);
-router.get('/offerKeys/:offerId', offerKeys);
 
 module.exports = router;

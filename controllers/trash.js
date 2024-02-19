@@ -85,3 +85,58 @@ if (response2.data.menorPreco > 0) {
         res.status(500).json({ error: 'Erro ao consultar a nossa API /returnOfferId.' });
     }
 }
+
+[
+    {
+      "productId": "10000503634001",
+      "offerId": "0e1e4a81-4061-4df2-a659-964d704cbfa2",
+      "offerType": "game",
+      "offerSize": 1
+    },
+    {
+      "productId": "10000264797001",
+      "offerId": "46f1876e-887f-4ea3-a529-be37865e611d",
+      "offerType": "game",
+      "offerSize": 10
+    },
+    {
+      "productId": "10000219610001",
+      "offerId": "e2a2e103-36f3-4e76-84ab-6051d77a0fa1",
+      "offerType": "game",
+      "offerSize": 2
+    },
+    {
+      "productId": "10000035895002",
+      "offerId": "25851f22-759e-4570-9305-dd7c93e51b0f",
+      "offerType": "game",
+      "offerSize": 10
+    },
+    {
+      "productId": "10000195492001",
+      "offerId": "0dab28d2-eb76-409e-8bd3-246202b2df2b",
+      "offerType": "game",
+      "offerSize": 1
+    },
+]
+
+{
+"id": "630de4e0-a837-48d9-a7f3-47395d550156",
+  "type": "game",
+  "createdAt": "2023-08-15T01:33:35Z",
+  "updatedAt": "2023-08-15T01:33:35Z",
+  "expireAt": "2043-08-15T01:33:35Z",
+  "price": "1.30",
+  "businessPrice": "1.69",
+  "visibility": "all",
+  "status": "active",
+  "inventory": {
+    "size": 1,
+    "sold": 0,
+    "type": ""
+  },
+  "product": {
+    "id": "10000001762003",
+    "name": "Antisquad Steam Key GLOBAL",
+    "sku": ""
+  }
+}

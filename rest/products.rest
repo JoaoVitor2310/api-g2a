@@ -19,6 +19,8 @@ Content-Type: application/json
 # }
 
 {
-    "productId": 10000068327002, 
-    "offerId": 1
+    "productId": "10000178604001",
+    "offerId": "da884dc8-5ac1-4f69-83b1-6d6887a137d8",
+    "offerType": "game",
+    "offerSize": 1
 }
