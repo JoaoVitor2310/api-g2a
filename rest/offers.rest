@@ -5,7 +5,7 @@ GET http://localhost:4000/api/offers/offersList?itemsPerPage=100&page=1&active=t
 GET http://localhost:4000/api/offers/returnOffersData
 
 ### searchOfferById productId = 45746
-GET http://localhost:4000/api/offers/searchOfferById/611f30fe-68b4-450a-a842-03376edc6c61
+GET http://localhost:4000/api/offers/searchOfferById/controllers/e087dd86-0ab3-4ff1-ba7b-d0188e5254b0
 # Content-Type: application/json
 
 # {
@@ -14,10 +14,13 @@ GET http://localhost:4000/api/offers/searchOfferById/611f30fe-68b4-450a-a842-033
 
 ### O productId é "inútil" para editar
 PATCH http://localhost:4000/api/offers/editOffer/
-# Content-Type: application/json
+Content-Type: application/json
 
-# {
-#     "productId": 1767, 
-#     "menorPreco": 0.54,
-#     "offerId": 2783132
-# }
+{
+    "productId": "10000149707001",
+    "menorPreco": "0.83",
+    "offerId": "b0cd4d7c-e105-45cd-aa15-8a1ad524efaf",
+    "offerType": "game",
+    "offerSize": 1,
+    "gameName": "Super Daryl Deluxe Steam Key GLOBAL"
+}

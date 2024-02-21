@@ -24,7 +24,7 @@ const offerList = async (req, res) => {
             // console.log(quantidade);
             res.json(response.data);
       } catch (error) {
-            console.error(error);
+            console.error(error.response.data.errors);
             res.status(500).json({ error: 'Erro ao consultar a API externa.' });
       }
 }
@@ -89,12 +89,12 @@ const returnOffersData = async (req, res) => {
                         page++;
                         console.log(`Página: ${page}`);
                   } catch (error) {
-                        console.error(error);
+                        console.error(error.response.data.errors);
                         res.status(500).json({ error: 'Erro ao consultar a API externa.' });
                   }
             }
       } catch (error) {
-            console.error(error);
+            console.error(error.response.data.errors);
             res.status(500).json({ error: 'Erro ao consultar a API externa.' });
       }
 }
@@ -115,7 +115,7 @@ const searchOfferById = async (req, res) => {
             });
             res.json(response.data);
       } catch (error) {
-            console.error(error);
+            // console.error(error);
             res.status(500).json({ error: 'Erro ao consultar a API externa.' });
       }
 }
@@ -128,68 +128,57 @@ const editOffer = async (req, res) => {
       // Edita os dados
       // Armazena a hora que foi editado
 
-      // const {offerId, offerType, variant} = req.body;
+      const { productId, menorPreco, offerId, offerType, offerSize, gameName } = req.body;
+      // console.log(productId, menorPreco, offerId, offerType, offerSize, gameName);
 
-      const data = {
-            offerType: "game",
+      const dataToEdit = {
+            offerType,
             variant: {
                   visibility: "all",
                   active: true,
                   archive: false,
+                  inventory: {
+                        size: Number(offerSize),
+                  },
                   price: {
-                        retail: "1.14",
+                        retail: menorPreco,
                         // business: "0.57"
                   }
             }
       }
-      
+
+      // console.log(dataToEdit);
+      res.json('a'); // Debug
+      return;
 
       const token = await getToken();
-      const offerId = "630de4e0-a837-48d9-a7f3-47395d550156";
 
-      try {
-            // Offerlist normal
-            const response = await axios.patch(`${url}/v3/sales/offers/${offerId}`, data, {
-                  headers: {
-                        'Authorization': `Bearer ${token}`
-                  },
-            });
-            res.json(response.data);
-      } catch (error) {
-            console.error(error.response.data.errors);
-            res.status(500).json({ error: 'Erro ao consultar a API externa.' });
+      if (offerId) {
+            try {
+                  // Offerlist normal
+                  const response = await axios.patch(`${url}/v3/sales/offers/${offerId}`, dataToEdit, {
+                        headers: {
+                              'Authorization': `Bearer ${token}`
+                        },
+                  });
+
+                  if (response.data.data.jobId) {
+                        console.log('OK!')
+                  //       res.json(response.data);
+                  } else {
+                        console.log('Erro ao editar o preço');
+                  //       res.json(-5);
+                  }
+
+                  res.json(response.data);
+            } catch (error) {
+                  console.error(error.response.data.errors);
+                  res.status(500).json({ error: 'Erro ao consultar a API externa.' });
+            }
+      } else {
+            console.log('Já somos o melhor preço.');
+            res.json(-5);
       }
-
-
-      // const { productId, menorPreco, offerId } = req.body; // Valores teste(foca nesse)
-      // const body = {
-      //       "wholesale_mode": 0,
-      //       "seller_price": menorPreco,
-      // };
-      // if (offerId && productId !== "1767") { // Esse productId é de um jogo da gamivo que tem o preço mínimo diferente, iremos ignorar
-      //       try {
-      //             const response = await axios.put(`${url}/api/public/v1/offers/${offerId}`, body, {
-      //                   headers: {
-      //                         'Authorization': `Bearer ${token}`
-      //                   },
-      //             });
-
-      //             // console.log(`O productId: ${productId}, na offerId: ${offerId}, teve o seu preço atualizado para: ${menorPreco}(sem taxa)`);
-      //             if(response.data == offerId){
-      //                   console.log('OK!')
-      //                   res.json(response.data);
-      //             }else{
-      //                   console.log('Erro ao editar o preço');
-      //                   res.json(-5);
-      //             }
-      //       } catch (error) {
-      //             console.error(error);
-      //             res.status(500).json({ error: 'Erro ao consultar a API externa.' });
-      //       }
-      // }else{
-      //       console.log('Já somos o melhor preço.');
-      //       res.json(-5);
-      // }
 }
 
 const returnOfferId = async (req, res) => {
@@ -218,7 +207,7 @@ const returnOfferId = async (req, res) => {
             res.json(objetoEncontrado.id); // offerId é retornada
             return;
       } catch (error) {
-            console.error(error);
+            console.error(error.response.data.errors);
             res.status(500).json({ error: 'Erro ao consultar a API externa.' });
       }
 }

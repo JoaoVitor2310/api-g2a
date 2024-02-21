@@ -2,25 +2,11 @@
 POST http://localhost:4000/api/products/compareById
 Content-Type: application/json
 
-# {
-#     "myOffers": [
-#   {
-#     "productId": "10000244894003",
-#     "offerId": "9119d933-4af8-4e6c-ba76-df23ad970100",
-#     "offerType": "game",
-#     "offerSize": 1
-#   },
-#   {
-#     "productId": "10000029506002",
-#     "offerId": "c7baee58-dad8-4642-818c-70d9a820f179",
-#     "offerType": "game",
-#     "offerSize": 1
-#   }]
-# }
-
 {
-    "productId": "10000178604001",
-    "offerId": "da884dc8-5ac1-4f69-83b1-6d6887a137d8",
+   "productId": "10000008826005",
+    "menorPreco": "3.03",
+    "offerId": "60320a3e-a111-48ed-acf1-d17328031d06",
     "offerType": "game",
-    "offerSize": 1
+    "offerSize": 2,
+    "gameName": "The Addams Family: Mansion Mayhem (PC) - Steam Key - GLOBAL"
 }

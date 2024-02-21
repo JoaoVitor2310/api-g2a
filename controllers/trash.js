@@ -51,11 +51,11 @@ if (response2.data.menorPreco > 0) {
                     //     console.log(`Dados da key: Chave não encontrada na planilha`);
                     // }
 
-                    if (key.includes("/") || key == "Z6LCN-84FCF-7M393"){ // Chave sem o valor pago
+                    if (key.includes("/") || key == "Z6LCN-84FCF-7M393") { // Chave sem o valor pago
                         console.log(`Dados da key: Chave não encontrada na planilha`);
-                        
+
                     }
-                    else if(key.startsWith("https")){
+                    else if (key.startsWith("https")) {
                         keysWithHttps.push(key);
                         console.log(`keysWithHttps++`);
                     }
@@ -88,55 +88,141 @@ if (response2.data.menorPreco > 0) {
 
 [
     {
-      "productId": "10000503634001",
-      "offerId": "0e1e4a81-4061-4df2-a659-964d704cbfa2",
-      "offerType": "game",
-      "offerSize": 1
+        "productId": "10000503634001",
+        "offerId": "0e1e4a81-4061-4df2-a659-964d704cbfa2",
+        "offerType": "game",
+        "offerSize": 1
     },
     {
-      "productId": "10000264797001",
-      "offerId": "46f1876e-887f-4ea3-a529-be37865e611d",
-      "offerType": "game",
-      "offerSize": 10
+        "productId": "10000264797001",
+        "offerId": "46f1876e-887f-4ea3-a529-be37865e611d",
+        "offerType": "game",
+        "offerSize": 10
     },
     {
-      "productId": "10000219610001",
-      "offerId": "e2a2e103-36f3-4e76-84ab-6051d77a0fa1",
-      "offerType": "game",
-      "offerSize": 2
+        "productId": "10000219610001",
+        "offerId": "e2a2e103-36f3-4e76-84ab-6051d77a0fa1",
+        "offerType": "game",
+        "offerSize": 2
     },
     {
-      "productId": "10000035895002",
-      "offerId": "25851f22-759e-4570-9305-dd7c93e51b0f",
-      "offerType": "game",
-      "offerSize": 10
+        "productId": "10000035895002",
+        "offerId": "25851f22-759e-4570-9305-dd7c93e51b0f",
+        "offerType": "game",
+        "offerSize": 10
     },
     {
-      "productId": "10000195492001",
-      "offerId": "0dab28d2-eb76-409e-8bd3-246202b2df2b",
-      "offerType": "game",
-      "offerSize": 1
+        "productId": "10000195492001",
+        "offerId": "0dab28d2-eb76-409e-8bd3-246202b2df2b",
+        "offerType": "game",
+        "offerSize": 1
     },
 ]
 
 {
-"id": "630de4e0-a837-48d9-a7f3-47395d550156",
-  "type": "game",
-  "createdAt": "2023-08-15T01:33:35Z",
-  "updatedAt": "2023-08-15T01:33:35Z",
-  "expireAt": "2043-08-15T01:33:35Z",
-  "price": "1.30",
-  "businessPrice": "1.69",
-  "visibility": "all",
-  "status": "active",
-  "inventory": {
-    "size": 1,
-    "sold": 0,
-    "type": ""
-  },
-  "product": {
-    "id": "10000001762003",
-    "name": "Antisquad Steam Key GLOBAL",
-    "sku": ""
-  }
+    "id": "630de4e0-a837-48d9-a7f3-47395d550156",
+        "type": "game",
+            "createdAt": "2023-08-15T01:33:35Z",
+                "updatedAt": "2023-08-15T01:33:35Z",
+                    "expireAt": "2043-08-15T01:33:35Z",
+                        "price": "1.30",
+                            "businessPrice": "1.69",
+                                "visibility": "all",
+                                    "status": "active",
+                                        "inventory": {
+        "size": 1,
+            "sold": 0,
+                "type": ""
+    },
+    "product": {
+        "id": "10000001762003",
+            "name": "Antisquad Steam Key GLOBAL",
+                "sku": ""
+    }
 }
+
+
+
+1 -
+{
+    productId: '10000190405001',
+    menorPreco: '2.80',
+    offerId: '1b8ad65b-6350-4a26-b739-fc260fd99659',
+    offerType: 'game',
+    offerSize: 1,
+    gameName: 'Death Crown Steam Key GLOBAL'
+}
+
+2 - {
+    productId: "10000178835001",
+    menorPreco: -4,
+    offerId: "e087dd86-0ab3-4ff1-ba7b-d0188e5254b0",
+    offerType: 'game',
+    offerSize: 1,
+    gameName: "Retro Sphere Steam Key GLOBAL"
+}
+3 -
+{
+    productId: '10000001090003',
+    menorPreco: '3.02',
+    offerId: '7192bbbf-0e92-4b06-b799-90e72e1f0da7',
+    offerType: 'game',
+    offerSize: 10,
+    gameName: 'Kung Fury: Street Rage Steam Key GLOBAL'
+}
+4-
+{
+    productId: '10000500096002',
+    menorPreco: '3.90',
+    offerId: '65995352-fa42-4091-9096-f1c1f38fe85c',
+    offerType: 'game',
+    offerSize: 2,
+    gameName: 'DC League of Super-Pets: The Adventures of Krypto and Ace (PC) - Steam Key - GLOBAL'
+  }
+
+5 -
+{
+    productId: '10000176345001',
+    menorPreco: '9.28',
+    offerId: 'a0445116-c5cd-4596-9aff-64156b891409',
+    offerType: 'game',
+    offerSize: 1,
+    gameName: 'Mercury Race Steam Key GLOBAL'
+}
+
+6 -
+{
+    productId: '10000004599002',
+    menorPreco: '2.11',
+    offerId: '0f2d5521-efce-4f10-a0ec-2b9bba6ba7da',
+    offerType: 'game',
+    offerSize: 10,
+    gameName: 'ROOT Steam Key GLOBAL'
+}
+
+7 -
+{
+    productId: '10000325279003',
+    menorPreco: -4,
+    offerId: 'ea91c7c5-7420-4d69-b7af-bb1d34bdc271',
+    offerType: 'game',
+    offerSize: 2,
+    gameName: 'Midnight Ghost Hunt (PC) - Steam Key - EUROPE'
+}
+
+
+10000068272013 // Caso do jogo "out of stock"
+cbce357b-9d89-4be6-813e-e2d8e7846f25
+Black Desert Online (PC) - Black Desert Key - EUROPE
+
+
+{ // Caso + de 3 candangos
+    productId: '10000219610001',
+    menorPreco: '1.37',
+    offerId: 'e2a2e103-36f3-4e76-84ab-6051d77a0fa1',
+    offerType: 'game',
+    offerSize: 2,
+    gameName: 'Stirring Abyss (PC) - Steam Key - GLOBAL'
+  }
+
+  {"productId":"10000008826005","offerId":"1f13eb03-05f2-451a-bff3-e11a20360a14","offerType":"game","offerSize":1,"gameName":"Wacky Wheels Steam Key GLOBAL"}
