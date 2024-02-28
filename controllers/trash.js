@@ -202,12 +202,11 @@ if (response2.data.menorPreco > 0) {
 
 7 -
 {
-    productId: '10000325279003',
-    menorPreco: -4,
-    offerId: 'ea91c7c5-7420-4d69-b7af-bb1d34bdc271',
+    productId: '10000195492001',
+    offerId: '0dab28d2-eb76-409e-8bd3-246202b2df2b',
     offerType: 'game',
-    offerSize: 2,
-    gameName: 'Midnight Ghost Hunt (PC) - Steam Key - EUROPE'
+    offerSize: 1,
+    gameName: 'Monsters Den: Godfall (PC) - Steam Key - GLOBAL'
 }
 
 

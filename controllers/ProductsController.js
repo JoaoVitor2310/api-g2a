@@ -10,7 +10,7 @@ const compareById = async (req, res) => {
   const visibility = 'retail', countryCode = 'BR'; // Variáveis necessárias para comparar
   let { productId, offerType, offerSize, gameName, offerId } = req.body; // Variáveis que iremos receber do returnOfferData
   const token = await getToken();
-  let casosApresentacao = []; // Separa offerIds para apresentação na msm ordem do google docs
+  let casoEspecial = false;
 
   try {
     const response = await axios.get(
@@ -29,135 +29,165 @@ const compareById = async (req, res) => {
 
     if (response.data.data.length == 0) {
       console.log('Jogo fora de estoque na G2A');
-      res.json({ productId, offerId, gameName, menorPreco: -4 })
+      res.json({ productId, offerId, menorPreco: -4, gameName })
     } else {
       // Tem estoque do jogo na g2a
       if (response.data.data[0].seller.name !== 'Bestbuy86') {
-        // Checar se nós já somos o menor preço
+        // Somos o segundo ou depois do segundo e kinguin não é o primeiro
 
         //Separar caso que só tem ele vendendo
         if (response.data.data[1]) {
           segundoMenorPreco = response.data.data[1].price.retail.final[0].value;
         }
 
-        for (const produto of response.data.data) {
-          if (produto.seller.name !== 'Bestbuy86') {
-            let ignoreSeller = false; // True = candango, false = vendedor experiente
-            // Obtém o preço de varejo do produto
-
-            const precoAtual = produto.price.retail.final[0].value;
-            const quantidadeVendas = Number(produto.seller.ratingsCount);
-            // console.log(`precoAtual: ${precoAtual}`); // Debug
-            // console.log(`quantidadeVendas: ${quantidadeVendas}`); // Debug
-
-            if (quantidadeVendas < 200) {
-              ignoreSeller = true;
-              qtdCandango++;
-            }
-
-            if (precoAtual < menorPrecoTotal) {
-              menorPrecoTotal = precoAtual; // Define um preço independente se é candango ou não
-            }
-
-            if (precoAtual < menorPrecoSemCandango) {
-              if (!ignoreSeller) {
-                // Se não for candango
-                menorPrecoSemCandango = precoAtual; // Define um preço considerando SOMENTE vendedores experientes
-              }
-            }
-          } else {
-            offerId = produto.id; // Na vdd nem precisa, mas é bom para garantir que o offerId está correto.
-          }
-        }
-
-        if (qtdCandango >= 3) {
-          console.log(`MAIS DE 3 CANDANGOS NO ID: ${productId} `); // Considera o preço menor independente
-          if (response.data.data[0].seller.ratingsCount < 200) {
-            console.log('O PRIMEIRO É CANDANGO');
-            if (response.data.data[1].seller.ratingsCount < 200) {
-              console.log('O SEGUNDO É CANDANGO');
-              if (response.data.data[2].seller.ratingsCount < 200) {
-                console.log('O TERCEIRO É CANDANGO, BATE O PREÇO DO PRIMEIRO');
-                menorPreco = response.data.data[0].price.retail.final[0].value;
-              } else {
-                menorPreco = response.data.data[2].price.retail.final[0].value;
-              }
-            } else {
-              menorPreco = response.data.data[1].price.retail.final[0].value;
-            }
-            // response.data.data[0].price.retail.final[0].value
-          } else {
-            menorPreco = response.data.data[0].price.retail.final[0].value;
-          }
-          console.log('Novo menor preço:' + menorPreco);
-          // menorPreco = menorPrecoTotal;
+        if (response.data.data[0].seller.name == 'Kinguin' && response.data.data[1].seller.name == 'Bestbuy86') {
+          casoEspecial = true;
+          console.log(`1° - Kinguin, 2° - Bestbuy86`)
+          // res.json({ productId, menorPreco: -4, gameName });
+          // return;
         } else {
-          menorPreco = menorPrecoSemCandango; // Considera SOMENTE os preços dos vendedores experientes
-        }
+          for (const produto of response.data.data) {
+            if (produto.seller.name !== 'Bestbuy86' && produto.seller.name !== 'Kinguin') {
+              let ignoreSeller = false; // True = candango, false = vendedor experiente
+              // Obtém o preço de varejo do produto
 
-        if (response.data.data.length == 1 || menorPrecoTotal == Number.MAX_SAFE_INTEGER) {
-          console.log(`Você é o único vendedor do productId: ${productId}`);
-          res.json({ productId, menorPreco: -2 }); // Sem concorrentes
-        } else {
-          if (menorPrecoTotal !== menorPrecoSemCandango) {
-            console.log(`TEM CANDANGO NESSE JOGO.`);
-            console.log(
-              `menorPrecoTotal: ${menorPrecoTotal}, menorPrecoSemCandango: ${menorPrecoSemCandango}`
-            );
-            if (menorPrecoSemCandango == Number.MAX_SAFE_INTEGER) {
-              // Caso os concorrentes sejam < 3 candangos e não tenha nenhum normal
-              res.json({ productId, menorPreco: -4 });
-              return;
+              const precoAtual = produto.price.retail.final[0].value;
+              const quantidadeVendas = Number(produto.seller.ratingsCount);
+              // console.log(`precoAtual: ${precoAtual}`); // Debug
+              // console.log(`quantidadeVendas: ${quantidadeVendas}`); // Debug
+
+              if (quantidadeVendas < 200) {
+                ignoreSeller = true;
+                qtdCandango++;
+              }
+
+              if (Number(precoAtual) < menorPrecoTotal) {
+                menorPrecoTotal = precoAtual; // Define um preço independente se é candango ou não
+              }
+
+              if (Number(precoAtual) < menorPrecoSemCandango) {
+                if (!ignoreSeller) {
+                  // Se não for candango
+                  menorPrecoSemCandango = precoAtual; // Define um preço considerando SOMENTE vendedores experientes
+                }
+              }
+            } else if (produto.seller.name == 'Bestbuy86') {
+              offerId = produto.id; // Na vdd nem precisa, mas é bom para garantir que o offerId está correto.
             }
           }
 
-          if (segundoMenorPreco > 1.0) {
-            // Lógica para os samfiteiros
-            const diferenca = segundoMenorPreco - menorPreco;
-            const dezPorCentoSegundoMenorPreco = 0.1 * segundoMenorPreco;
-
-            if (diferenca >= dezPorCentoSegundoMenorPreco) {
-              console.log('SAMFITEIRO!');
-              if (response.data.data[1].seller.name == 'Bestbuy86') {
-                // Tem samfiteiro, mas ele é o segundo, não altera o preço
-                console.log('Já somos o segundo melhor preço!');
-                res.json({ productId, menorPreco: -4 });
-                return;
+          if (qtdCandango >= 3) {
+            console.log(`MAIS DE 3 CANDANGOS NO ID: ${productId} `); // Considera o preço menor independente
+            if (response.data.data[0].seller.ratingsCount < 200) {
+              console.log('O PRIMEIRO É CANDANGO');
+              if (response.data.data[1].seller.ratingsCount < 200) {
+                console.log('O SEGUNDO É CANDANGO');
+                if (response.data.data[2].seller.ratingsCount < 200) {
+                  console.log('O TERCEIRO É CANDANGO, BATE O PREÇO DO PRIMEIRO');
+                  menorPreco = response.data.data[0].price.retail.final[0].value;
+                } else {
+                  menorPreco = response.data.data[2].price.retail.final[0].value;
+                }
               } else {
-                // Tem samfiteiro, mas não somos o segundo, altera o preço
                 menorPreco = response.data.data[1].price.retail.final[0].value;
               }
+              // response.data.data[0].price.retail.final[0].value
+            } else {
+              menorPreco = response.data.data[0].price.retail.final[0].value;
+            }
+            console.log('Novo menor preço:' + menorPreco);
+            // menorPreco = menorPrecoTotal;
+          } else {
+            menorPreco = menorPrecoSemCandango; // Considera SOMENTE os preços dos vendedores experientes
+          }
+
+          if (response.data.data.length == 1 || menorPrecoTotal == Number.MAX_SAFE_INTEGER) {
+            console.log(`Você é o único vendedor do productId: ${productId}`);
+            res.json({ productId, menorPreco: -2, gameName }); // Sem concorrentes
+          } else {
+            if (menorPrecoTotal !== menorPrecoSemCandango) {
+              console.log(`TEM CANDANGO NESSE JOGO.`);
+              console.log(
+                `menorPrecoTotal: ${menorPrecoTotal}, menorPrecoSemCandango: ${menorPrecoSemCandango}`
+              );
+              if (menorPrecoSemCandango == Number.MAX_SAFE_INTEGER) {
+                // Caso os concorrentes sejam < 3 candangos e não tenha nenhum normal
+                res.json({ productId, menorPreco: -4, gameName });
+                return;
+              }
+            }
+
+            if (segundoMenorPreco > 1.0) {
+              // Lógica para os samfiteiros
+              const diferenca = segundoMenorPreco - menorPreco;
+              const dezPorCentoSegundoMenorPreco = 0.1 * segundoMenorPreco;
+
+              if (diferenca >= dezPorCentoSegundoMenorPreco) {
+                console.log('SAMFITEIRO!');
+                if (response.data.data[1].seller.name == 'Bestbuy86') {
+                  // Tem samfiteiro, mas ele é o segundo, não altera o preço
+                  console.log('Já somos o segundo melhor preço!');
+                  res.json({ productId, menorPreco: -4, gameName });
+                  return;
+                } else {
+                  // Tem samfiteiro, mas não somos o segundo, altera o preço
+                  menorPreco = response.data.data[1].price.retail.final[0].value;
+                }
+              }
+            }
+
+            menorPreco = menorPreco - 0.02;
+            if (menorPreco < 0.57) {
+              menorPreco = 0.57; // Garante que esse será o preço mínimo de venda(0.57 para ter pelo menos 0.01 de lucro)
+            }
+            let menorPrecoSemTaxa = calcPrecoSemTaxa(menorPreco);
+
+            console.log(`Para o menorPreco ${menorPreco.toFixed(2)} ser listado, o preço sem taxa deve ser: ${menorPrecoSemTaxa.toFixed(2
+            )}`);
+
+            res.json({
+              productId,
+              menorPreco: menorPrecoSemTaxa.toFixed(2),
+              offerId,
+              offerType,
+              offerSize,
+              gameName
+            });
+          }
+        }
+
+      } else if (response.data.data[0].seller.name == 'Bestbuy86') { // Somos o primeiro ou (somos o segundo com Kinguin em primeiro)
+
+        if (response.data.data[1]) { // Se tem segundo lugar
+          if (response.data.data[1].seller.name !== 'Kinguin') { // Se o segundo não for a kinguin
+            segundoMenorPreco = response.data.data[1].price.retail.final[0].value;
+          } else { // kinguin é o segundo
+            if (response.data.data[2]) { // "Segundo menor preço" é na vdd o terceiro
+              segundoMenorPreco = response.data.data[2].price.retail.final[0].value;
+            } else { // Segundo é a kinguin mas não tem o terceiro vendedor
+              res.json({ productId, menorPreco: -4, gameName });
             }
           }
 
-          menorPreco = menorPreco - 0.02;
-          let menorPrecoSemTaxa = calcPrecoSemTaxa(menorPreco);
+          let nossoPreco;
+          if (response.data.data[0].seller.name == 'Bestbuy86') {
+            nossoPreco = response.data.data[0].price.retail.final[0].value;
+          } else {
+            nossoPreco = response.data.data[1].price.retail.final[0].value;
+          }
 
-          console.log(`Para o menorPreco ${menorPreco.toFixed(2)} ser listado, o preço sem taxa deve ser: ${menorPrecoSemTaxa.toFixed(3
-          )}`);
-
-          res.json({
-            productId,
-            menorPreco: menorPrecoSemTaxa.toFixed(2),
-            offerId,
-            offerType,
-            offerSize,
-            gameName
-          });
-        }
-      } else { // Se nós já formos o menor preço
-
-        if (response.data.data[1]) {
-          segundoMenorPreco = response.data.data[1].price.retail.final[0].value;
-          const nossoPreco = response.data.data[0].price.retail.final[0].value;
           const diferenca = segundoMenorPreco - nossoPreco;
-
           if (diferenca >= 0.1) {
             menorPreco = segundoMenorPreco - 0.02;
+            if (menorPreco < 0.57) {
+              menorPreco = 0.57; // Garante que esse será o preço mínimo de venda(0.57 para ter pelo menos 0.01 de lucro)
+            }
             let menorPrecoSemTaxa = calcPrecoSemTaxa(menorPreco);
 
             offerId = response.data.data[0].id;
             console.log('ESTAMOS COM O PREÇO ABAIXO, IREMOS AUMENTAR!');
+            console.log(`Para o menorPreco ${menorPreco.toFixed(2)} ser listado, o preço sem taxa deve ser: ${menorPrecoSemTaxa.toFixed(3
+            )}`);
             res.json({
               productId,
               menorPreco: menorPrecoSemTaxa.toFixed(2),
@@ -170,10 +200,61 @@ const compareById = async (req, res) => {
             console.log('Já somos o melhor preço, nada para fazer!');
             res.json({ productId, menorPreco: -4, gameName });
           }
+
         } else {
-          res.json({ productId, menorPreco: -4 });
+          res.json({ productId, menorPreco: -4, gameName });
         }
       }
+
+      if (casoEspecial) { // Não somos o primeiro e kinguin é o primeiro, não dá p fazer isso com os ifs acima
+        if (response.data.data[1]) { // Se tem segundo lugar
+          if (response.data.data[1].seller.name !== 'Kinguin') { // Se o segundo não for a kinguin
+            segundoMenorPreco = response.data.data[1].price.retail.final[0].value;
+          } else { // kinguin é o segundo
+            if (response.data.data[2]) { // "Segundo menor preço" é na vdd o terceiro
+              segundoMenorPreco = response.data.data[2].price.retail.final[0].value;
+            } else { // Segundo é a kinguin mas não tem o terceiro vendedor
+              res.json({ productId, menorPreco: -4, gameName });
+            }
+          }
+
+          let nossoPreco;
+          if (response.data.data[0].seller.name == 'Bestbuy86') {
+            nossoPreco = response.data.data[0].price.retail.final[0].value;
+          } else {
+            nossoPreco = response.data.data[1].price.retail.final[0].value;
+          }
+
+          const diferenca = segundoMenorPreco - nossoPreco;
+          if (diferenca >= 0.1) {
+            menorPreco = segundoMenorPreco - 0.02;
+            if (menorPreco < 0.57) {
+              menorPreco = 0.57; // Garante que esse será o preço mínimo de venda(0.57 para ter pelo menos 0.01 de lucro)
+            }
+            let menorPrecoSemTaxa = calcPrecoSemTaxa(menorPreco);
+
+            offerId = response.data.data[0].id;
+            console.log('ESTAMOS COM O PREÇO ABAIXO, IREMOS AUMENTAR!');
+            console.log(`Para o menorPreco ${menorPreco.toFixed(2)} ser listado, o preço sem taxa deve ser: ${menorPrecoSemTaxa.toFixed(3
+            )}`);
+            res.json({
+              productId,
+              menorPreco: menorPrecoSemTaxa.toFixed(2),
+              offerId,
+              offerType,
+              offerSize,
+              gameName
+            });
+          } else {
+            console.log('Já somos o melhor preço, nada para fazer!');
+            res.json({ productId, menorPreco: -4, gameName });
+          }
+
+        } else {
+          res.json({ productId, menorPreco: -4, gameName });
+        }
+      }
+
     }
   } catch (error) {
     console.error(error);

@@ -5,7 +5,7 @@ GET http://localhost:4000/api/offers/offersList?itemsPerPage=100&page=1&active=t
 GET http://localhost:4000/api/offers/returnOffersData
 
 ### searchOfferById productId = 45746
-GET http://localhost:4000/api/offers/searchOfferById/controllers/e087dd86-0ab3-4ff1-ba7b-d0188e5254b0
+GET http://localhost:4000/api/offers/searchOfferById/ea91c7c5-7420-4d69-b7af-bb1d34bdc271
 # Content-Type: application/json
 
 # {
@@ -17,10 +17,13 @@ PATCH http://localhost:4000/api/offers/editOffer/
 Content-Type: application/json
 
 {
-    "productId": "10000149707001",
-    "menorPreco": "0.83",
-    "offerId": "b0cd4d7c-e105-45cd-aa15-8a1ad524efaf",
+    "productId": "10000176345001",
+    "menorPreco": "6.5",
+    "offerId": "a0445116-c5cd-4596-9aff-64156b891409",
     "offerType": "game",
     "offerSize": 1,
-    "gameName": "Super Daryl Deluxe Steam Key GLOBAL"
+    "gameName": "Mercury Race Steam Key GLOBAL"
 }
+
+###
+GET https://api.g2a.com/oauth/token?grant_type=client_credentials&client_id=aoljisnfoasdnfaslkdfml&client_secret=aslkdmjasldkmaslakm

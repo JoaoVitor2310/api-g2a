@@ -3,15 +3,11 @@ const axios = require('axios');
 const router = require('./routes/Router');
 require('dotenv').config();
 
-const url = process.env.URL;
-const client_id = process.env.G2A_ClientID;
-const client_secret = process.env.G2A_ClientSecret;
-
 const app = express();
 app.use(express.json());
 
 app.get('/', (req, res) => {
-      res.send('G2A Server Online');
+      res.send('Desenvolvido por João Vitor Gouveia e Lucas Corrado.');
 })
 
 app.use('/', router);

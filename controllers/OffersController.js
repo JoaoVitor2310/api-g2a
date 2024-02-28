@@ -47,6 +47,10 @@ const returnOffersData = async (req, res) => {
                                     'Authorization': `Bearer ${token}`
                               },
                         });
+
+                        // res.json(response.data); // Debug
+                        // return;
+
                         quantidade = response.data.data.length // Quantidade de ofertas naquela página
                         quatidadeTotal += quantidade; // Quantidade total de ofertas
 
@@ -66,7 +70,7 @@ const returnOffersData = async (req, res) => {
                               let offerType = response.data.data[i].type;
                               let offerSize = response.data.data[i].inventory.size;
 
-                              // if (response.data.data[i].createdAt == response.data.data[i].updatedAt) { // Debug: Procurando jogo sem edições
+                              // if (response.data.data[i].product.name.includes("Monsters' Den: Godfall")) { // Debug: Procurando jogo pelo nome
                               //       res.json(response.data.data[i]);
                               //       isDone = true;
                               //       return;
@@ -148,8 +152,8 @@ const editOffer = async (req, res) => {
       }
 
       // console.log(dataToEdit);
-      res.json('a'); // Debug
-      return;
+      // res.json('a'); // Debug
+      // return;
 
       const token = await getToken();
 

@@ -3,10 +3,9 @@ POST http://localhost:4000/api/products/compareById
 Content-Type: application/json
 
 {
-   "productId": "10000008826005",
-    "menorPreco": "3.03",
-    "offerId": "60320a3e-a111-48ed-acf1-d17328031d06",
+    "productId": "10000004599002",
+    "offerId": "91d9950f-a84a-496b-8987-710c5815a372",
     "offerType": "game",
-    "offerSize": 2,
-    "gameName": "The Addams Family: Mansion Mayhem (PC) - Steam Key - GLOBAL"
+    "offerSize": 3,
+    "gameName": "Scorn (PC) - Steam Key - EUROPE"
 }
