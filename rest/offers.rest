@@ -1,11 +1,11 @@
 ### Offerlist normal
-GET http://localhost:4000/api/offers/offersList?itemsPerPage=100&page=1&active=true
+GET http://localhost:4000/g2a/api/offers/offersList?itemsPerPage=100&page=1&active=true
 
 ### Offerlist com loop
-GET http://localhost:4000/api/offers/returnOffersData
+GET http://localhost:4000/g2a/api/offers/returnOffersData
 
 ### searchOfferById productId = 45746
-GET http://localhost:4000/api/offers/searchOfferById/ea91c7c5-7420-4d69-b7af-bb1d34bdc271
+GET http://localhost:4000/g2a/api/offers/searchOfferById/ea91c7c5-7420-4d69-b7af-bb1d34bdc271
 # Content-Type: application/json
 
 # {
@@ -13,7 +13,7 @@ GET http://localhost:4000/api/offers/searchOfferById/ea91c7c5-7420-4d69-b7af-bb1
 # }
 
 ### O productId é "inútil" para editar
-PATCH http://localhost:4000/api/offers/editOffer/
+PATCH http://localhost:4000/g2a/api/offers/editOffer/
 Content-Type: application/json
 
 {
@@ -24,6 +24,3 @@ Content-Type: application/json
     "offerSize": 1,
     "gameName": "Mercury Race Steam Key GLOBAL"
 }
-
-###
-GET https://api.g2a.com/oauth/token?grant_type=client_credentials&client_id=aoljisnfoasdnfaslkdfml&client_secret=aslkdmjasldkmaslakm

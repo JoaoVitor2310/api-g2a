@@ -1,6 +1,6 @@
 # API Gamivo "postman"
 ###
-GET http://localhost:4000/api/accounts/accountData
+GET http://localhost:4000/g2a/api/accounts/accountData
 
 ###
-GET http://localhost:4000/api/accounts/calculateFinalPrice
+GET http://localhost:4000/g2a/api/accounts/calculateFinalPrice

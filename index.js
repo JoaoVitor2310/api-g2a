@@ -10,7 +10,7 @@ app.get('/', (req, res) => {
       res.send('Desenvolvido por João Vitor Gouveia e Lucas Corrado.');
 })
 
-app.use('/', router);
+app.use('/g2a', router);
 
 const port = process.env.PORT || 4000;
 

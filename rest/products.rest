@@ -1,5 +1,5 @@
 #
-POST http://localhost:4000/api/products/compareById
+POST http://localhost:4000/g2a/api/products/compareById
 Content-Type: application/json
 
 {

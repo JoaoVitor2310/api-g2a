@@ -38,7 +38,7 @@ const attPrices = async (req, res) => {
       },
     });
 
-    // const response1 = await axios.get(`${nossaURL}/api/offers/returnOffersData`);
+    // const response1 = await axios.get(`${nossaURL}/g2a/api/offers/returnOffersData`);
     // const { myOffers } = response1.data;
 
     // Apresentação
@@ -114,13 +114,13 @@ const attPrices = async (req, res) => {
           "offerSize": offer.offerSize,
           "gameName": offer.gameName,
         }
-        const response2 = await axios.post(`${nossaURL}/api/products/compareById`, dataToCompare); // Recebe um objeto com o id do jogo, e o menor preço que pode ser: o preço mesmo, -1 para jogos impossíveis e -2 para jogos sem concorrentes, -4 quando já for o melhor preço
+        const response2 = await axios.post(`${nossaURL}/g2a/api/products/compareById`, dataToCompare); // Recebe um objeto com o id do jogo, e o menor preço que pode ser: o preço mesmo, -1 para jogos impossíveis e -2 para jogos sem concorrentes, -4 quando já for o melhor preço
         console.log(response2.data);
 
         if (response2.data.menorPreco !== -4) {
 
           try {
-            const response3 = await axios.patch(`${nossaURL}/api/offers/editOffer`, response2.data); // Recebe um objeto com o id do jogo, e o menor preço que pode ser: o preço mesmo, -1 para jogos impossíveis e -2 para jogos sem concorrentes
+            const response3 = await axios.patch(`${nossaURL}/g2a/api/offers/editOffer`, response2.data); // Recebe um objeto com o id do jogo, e o menor preço que pode ser: o preço mesmo, -1 para jogos impossíveis e -2 para jogos sem concorrentes
             if (response3.data) {
               jogosAtualizados.push(response2.data.gameName);
             }
