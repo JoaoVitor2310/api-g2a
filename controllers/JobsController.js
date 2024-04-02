@@ -119,15 +119,15 @@ const attPrices = async (req, res) => {
 
         if (response2.data.menorPreco !== -4) {
 
-          try {
-            const response3 = await axios.patch(`${nossaURL}/g2a/api/offers/editOffer`, response2.data); // Recebe um objeto com o id do jogo, e o menor preço que pode ser: o preço mesmo, -1 para jogos impossíveis e -2 para jogos sem concorrentes
-            if (response3.data) {
-              jogosAtualizados.push(response2.data.gameName);
-            }
-          } catch (error) {
-            const jogosFormatados = jogosAtualizados.join('\n');
-            res.status(500).json({ error: 'Erro ao consultar a nossa API /editOffer.', jogosFormatados, dados: response2.data });
-          }
+          // try {
+          //   const response3 = await axios.patch(`${nossaURL}/g2a/api/offers/editOffer`, response2.data); // Recebe um objeto com o id do jogo, e o menor preço que pode ser: o preço mesmo, -1 para jogos impossíveis e -2 para jogos sem concorrentes
+          //   if (response3.data) {
+          //     jogosAtualizados.push(response2.data.gameName);
+          //   }
+          // } catch (error) {
+          //   const jogosFormatados = jogosAtualizados.join('\n');
+          //   res.status(500).json({ error: 'Erro ao consultar a nossa API /editOffer.', jogosFormatados, dados: response2.data });
+          // }
         }
 
       }

@@ -3,9 +3,12 @@ POST http://localhost:4000/g2a/api/products/compareById
 Content-Type: application/json
 
 {
-    "productId": "10000004599002",
+    "productId": "10000337842001",
     "offerId": "91d9950f-a84a-496b-8987-710c5815a372",
     "offerType": "game",
     "offerSize": 3,
     "gameName": "Scorn (PC) - Steam Key - EUROPE"
 }
+
+###
+GET http://localhost:4000/g2a/api/products/priceResearcher/10000195492001
