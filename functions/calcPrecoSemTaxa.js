@@ -1,12 +1,10 @@
 const axios = require('axios');
 require('dotenv').config();
 
-const url = process.env.URL;
-const client_id = process.env.G2A_ClientID;
-const client_secret = process.env.G2A_ClientSecret;
-
 const calcPrecoSemTaxa = (menorPreco) => {
     let menorPrecoSemTaxa;
+    menorPreco = menorPreco.toFixed(2);
+    
     switch (true) {
         case (menorPreco >= 0.1 && menorPreco <= 1.22):
             menorPrecoSemTaxa = menorPreco / 1.23;

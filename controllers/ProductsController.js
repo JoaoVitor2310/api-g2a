@@ -168,7 +168,8 @@ const compareById = async (req, res) => {
             if (response.data.data[2]) { // "Segundo menor preço" é na vdd o terceiro
               segundoMenorPreco = response.data.data[2].price.retail.final[0].value;
             } else { // Segundo é a kinguin mas não tem o terceiro vendedor
-              res.json({ productId, menorPreco: -4, gameName }); 
+              res.json({ productId, menorPreco: -4, gameName });
+              return;
             }
           }
 
@@ -208,7 +209,7 @@ const compareById = async (req, res) => {
           res.json({ productId, menorPreco: -4, gameName }); // Alterar para o price-researcher?
         }
       }
-      
+
       if (casoEspecial) { // Não somos o primeiro e kinguin é o primeiro, não dá p fazer isso com os ifs acima
         if (response.data.data[1]) { // Se tem segundo lugar
           if (response.data.data[1].seller.name !== 'Kinguin') { // Se o segundo não for a kinguin
@@ -289,7 +290,7 @@ const priceResearcher = async (req, res) => {
 
     if (response.data.data.length == 0) {
       console.log('Jogo fora de estoque na G2A');
-      res.json({ productId, offerId, menorPreco: "O", gameName })
+      res.json({ productId, offerId, menorPreco: "O" })
     } else {
       // Tem estoque do jogo na g2a
       if (response.data.data[0].seller.name !== 'Bestbuy86') {
@@ -303,7 +304,6 @@ const priceResearcher = async (req, res) => {
         if (response.data.data[0].seller.name == 'Kinguin' && response.data.data[1].seller.name == 'Bestbuy86') {
           casoEspecial = true;
           console.log(`1° - Kinguin, 2° - Bestbuy86`)
-          // res.json({ productId, menorPreco: -4, gameName });
           // return;
         } else {
           for (const produto of response.data.data) {
@@ -331,8 +331,6 @@ const priceResearcher = async (req, res) => {
                   menorPrecoSemCandango = precoAtual; // Define um preço considerando SOMENTE vendedores experientes
                 }
               }
-            } else if (produto.seller.name == 'Bestbuy86') {
-              offerId = produto.id; // Na vdd nem precisa, mas é bom para garantir que o offerId está correto.
             }
           }
 
@@ -361,8 +359,7 @@ const priceResearcher = async (req, res) => {
 
           if (response.data.data.length == 1 || menorPrecoTotal == Number.MAX_SAFE_INTEGER) {
             console.log(`Você é o único vendedor do productId: ${productId}`);
-            // res.json({ productId, menorPreco: -2, gameName }); // Sem concorrentes
-            res.json({ productId, menorPreco: response.data.data[0].price.retail.final[0].value, gameName }); // Sem concorrentes. Alterar pro price-researcher
+            res.json({ productId, menorPreco: response.data.data[0].price.retail.final[0].value }); // Sem concorrentes. Alterar pro price-researcher
           } else {
             if (menorPrecoTotal !== menorPrecoSemCandango) {
               console.log(`TEM CANDANGO NESSE JOGO.`);
@@ -371,8 +368,16 @@ const priceResearcher = async (req, res) => {
               );
               if (menorPrecoSemCandango == Number.MAX_SAFE_INTEGER) {
                 // Caso os concorrentes sejam < 3 candangos e não tenha nenhum normal
-                res.json({ productId, menorPreco: -4, gameName });
-                return;
+                if (response.data.data[2]) {
+                  res.json({ productId, menorPreco: response.data.data[2].price.retail.final[0].value });
+                  return;
+                } else if (response.data.data[1]) {
+                  res.json({ productId, menorPreco: response.data.data[1].price.retail.final[0].value });
+                  return;
+                } else {
+                  res.json({ productId, menorPreco: 'Erro inesperado' });
+                  return;
+                }
               }
             }
 
@@ -386,7 +391,7 @@ const priceResearcher = async (req, res) => {
                 if (response.data.data[1].seller.name == 'Bestbuy86') {
                   // Tem samfiteiro, mas ele é o segundo, não altera o preço
                   console.log('Já somos o segundo melhor preço!');
-                  res.json({ productId, menorPreco: response.data.data[1].price.retail.final[0].value, gameName }); // Alterar para o price-researcher
+                  res.json({ productId, menorPreco: response.data.data[1].price.retail.final[0].value }); // Alterar para o price-researcher
                   return;
                 } else {
                   // Tem samfiteiro, mas não somos o segundo, altera o preço
@@ -416,8 +421,7 @@ const priceResearcher = async (req, res) => {
             if (response.data.data[2]) { // "Segundo menor preço" é na vdd o terceiro
               segundoMenorPreco = response.data.data[2].price.retail.final[0].value;
             } else { // Segundo é a kinguin mas não tem o terceiro vendedor
-              // res.json({ productId, menorPreco: -4, gameName }); 
-              res.json({ productId, menorPreco: response.data.data[0].price.retail.final[0].value, gameName }); // Alterar para o price-researcher
+              res.json({ productId, menorPreco: response.data.data[0].price.retail.final[0].value }); // Alterar para o price-researcher
             }
           }
 
@@ -446,8 +450,7 @@ const priceResearcher = async (req, res) => {
           }
 
         } else {
-          // res.json({ productId, menorPreco: -4 }); // Alterar para o price-researcher?
-          res.json({ productId, menorPreco: response.data.data[0].price.retail.final[0].value, gameName }); // alterar pro price-researcher?
+          res.json({ productId, menorPreco: response.data.data[0].price.retail.final[0].value }); // alterar pro price-researcher?
         }
       }
 
@@ -459,8 +462,7 @@ const priceResearcher = async (req, res) => {
             if (response.data.data[2]) { // "Segundo menor preço" é na vdd o terceiro
               segundoMenorPreco = response.data.data[2].price.retail.final[0].value;
             } else { // Segundo é a kinguin mas não tem o terceiro vendedor
-              // res.json({ productId, menorPreco: -4, gameName });
-              res.json({ productId, menorPreco: response.data.data[0].price.retail.final[0].value, gameName }); // Alterar para o price-researcher
+              res.json({ productId, menorPreco: response.data.data[0].price.retail.final[0].value }); // Alterar para o price-researcher
             }
           }
 
@@ -485,21 +487,19 @@ const priceResearcher = async (req, res) => {
             });
           } else {
             console.log('Já somos o melhor preço, nada para fazer!');
-            // res.json({ productId, menorPreco: -4, gameName });
-            res.json({ productId, menorPreco: nossoPreco.toFixed(2), gameName }); // Alterar para o price-researcher
+            res.json({ productId, menorPreco: nossoPreco.toFixed(2) }); // Alterar para o price-researcher
           }
 
         } else {
-          // res.json({ productId, menorPreco: -4, gameName });
-          res.json({ productId, menorPreco: response.data.data[0].price.retail.final[0].value, gameName }); // Alterar para o price-researcher
+          res.json({ productId, menorPreco: response.data.data[0].price.retail.final[0].value }); // Alterar para o price-researcher
         }
       }
 
     }
   } catch (error) {
     console.error(error);
-    console.log(`Error em ${productId, offerId}`)
-    res.status(500).json({ error: 'Erro ao consultar a API externa.' });
+    // console.log(`Error em ${productId, offerId}`)
+    res.status(500).json({ error: 'Erro ao consultar a API externa1.' });
   }
 };
 

@@ -5,7 +5,7 @@ GET http://localhost:4000/g2a/api/offers/offersList?itemsPerPage=100&page=1&acti
 GET http://localhost:4000/g2a/api/offers/returnOffersData
 
 ### searchOfferById productId = 45746
-GET http://localhost:4000/g2a/api/offers/searchOfferById/ea91c7c5-7420-4d69-b7af-bb1d34bdc271
+GET http://localhost:4000/g2a/api/offers/searchOfferById/350a9b55-b73a-409c-b75e-6bc60372ebea
 # Content-Type: application/json
 
 # {

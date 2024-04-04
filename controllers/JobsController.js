@@ -38,67 +38,67 @@ const attPrices = async (req, res) => {
       },
     });
 
-    // const response1 = await axios.get(`${nossaURL}/g2a/api/offers/returnOffersData`);
-    // const { myOffers } = response1.data;
+    const response1 = await axios.get(`${nossaURL}/g2a/api/offers/returnOffersData`);
+    const { myOffers } = response1.data;
 
     // Apresentação
-    const myOffers = [
-      {
-        productId: '10000190405001',
-        // menorPreco: '2.80',
-        offerId: '1b8ad65b-6350-4a26-b739-fc260fd99659',
-        offerType: 'game',
-        offerSize: 1,
-        gameName: 'Death Crown Steam Key GLOBAL'
-      },
-      {
-        productId: "10000178835001",
-        // menorPreco: -4,
-        offerId: "e087dd86-0ab3-4ff1-ba7b-d0188e5254b0",
-        offerType: 'game',
-        offerSize: 1,
-        gameName: "Retro Sphere Steam Key GLOBAL"
-      },
-      {
-        productId: '10000001090003',
-        // menorPreco: '3.02',
-        offerId: '7192bbbf-0e92-4b06-b799-90e72e1f0da7',
-        offerType: 'game',
-        offerSize: 10,
-        gameName: 'Kung Fury: Street Rage Steam Key GLOBAL'
-      },
-      {
-        productId: '10000500096002',
-        // menorPreco: '3.90',
-        offerId: '65995352-fa42-4091-9096-f1c1f38fe85c',
-        offerType: 'game',
-        offerSize: 2,
-        gameName: 'DC League of Super-Pets: The Adventures of Krypto and Ace (PC) - Steam Key - GLOBAL'
-      },
-      {
-        productId: '10000176345001',
-        // menorPreco: '9.28',
-        offerId: 'a0445116-c5cd-4596-9aff-64156b891409',
-        offerType: 'game',
-        offerSize: 1,
-        gameName: 'Mercury Race Steam Key GLOBAL'
-      },
-      {
-        productId: '10000004599002',
-        // menorPreco: '2.11',
-        offerId: '0f2d5521-efce-4f10-a0ec-2b9bba6ba7da',
-        offerType: 'game',
-        offerSize: 10,
-        gameName: 'ROOT Steam Key GLOBAL'
-      },
-      {
-        productId: '10000195492001',
-        offerId: '0dab28d2-eb76-409e-8bd3-246202b2df2b',
-        offerType: 'game',
-        offerSize: 1,
-        gameName: 'Monsters Den: Godfall (PC) - Steam Key - GLOBAL'
-      }
-    ]
+    // const myOffers = [
+    //   {
+    //     productId: '10000190405001',
+    //     // menorPreco: '2.80',
+    //     offerId: '1b8ad65b-6350-4a26-b739-fc260fd99659',
+    //     offerType: 'game',
+    //     offerSize: 1,
+    //     gameName: 'Death Crown Steam Key GLOBAL'
+    //   },
+    //   {
+    //     productId: "10000178835001",
+    //     // menorPreco: -4,
+    //     offerId: "e087dd86-0ab3-4ff1-ba7b-d0188e5254b0",
+    //     offerType: 'game',
+    //     offerSize: 1,
+    //     gameName: "Retro Sphere Steam Key GLOBAL"
+    //   },
+    //   {
+    //     productId: '10000001090003',
+    //     // menorPreco: '3.02',
+    //     offerId: '7192bbbf-0e92-4b06-b799-90e72e1f0da7',
+    //     offerType: 'game',
+    //     offerSize: 10,
+    //     gameName: 'Kung Fury: Street Rage Steam Key GLOBAL'
+    //   },
+    //   {
+    //     productId: '10000500096002',
+    //     // menorPreco: '3.90',
+    //     offerId: '65995352-fa42-4091-9096-f1c1f38fe85c',
+    //     offerType: 'game',
+    //     offerSize: 2,
+    //     gameName: 'DC League of Super-Pets: The Adventures of Krypto and Ace (PC) - Steam Key - GLOBAL'
+    //   },
+    //   {
+    //     productId: '10000176345001',
+    //     // menorPreco: '9.28',
+    //     offerId: 'a0445116-c5cd-4596-9aff-64156b891409',
+    //     offerType: 'game',
+    //     offerSize: 1,
+    //     gameName: 'Mercury Race Steam Key GLOBAL'
+    //   },
+    //   {
+    //     productId: '10000004599002',
+    //     // menorPreco: '2.11',
+    //     offerId: '0f2d5521-efce-4f10-a0ec-2b9bba6ba7da',
+    //     offerType: 'game',
+    //     offerSize: 10,
+    //     gameName: 'ROOT Steam Key GLOBAL'
+    //   },
+    //   {
+    //     productId: '10000195492001',
+    //     offerId: '0dab28d2-eb76-409e-8bd3-246202b2df2b',
+    //     offerType: 'game',
+    //     offerSize: 1,
+    //     gameName: 'Monsters Den: Godfall (PC) - Steam Key - GLOBAL'
+    //   }
+    // ]
 
     let jogosAtualizados = [];
 
@@ -115,7 +115,7 @@ const attPrices = async (req, res) => {
           "gameName": offer.gameName,
         }
         const response2 = await axios.post(`${nossaURL}/g2a/api/products/compareById`, dataToCompare); // Recebe um objeto com o id do jogo, e o menor preço que pode ser: o preço mesmo, -1 para jogos impossíveis e -2 para jogos sem concorrentes, -4 quando já for o melhor preço
-        console.log(response2.data);
+        // console.log(response2.data);
 
         if (response2.data.menorPreco !== -4) {
 
