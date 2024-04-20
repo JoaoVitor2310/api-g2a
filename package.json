@@ -2,9 +2,9 @@
   "name": "api-g2a",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "g2a.js",
   "scripts": {
-    "dev": "nodemon index.js"
+    "dev": "nodemon g2a.js"
   },
   "keywords": [],
   "author": "",

@@ -290,7 +290,7 @@ const priceResearcher = async (req, res) => {
 
     if (response.data.data.length == 0) {
       console.log('Jogo fora de estoque na G2A');
-      res.json({ productId, offerId, menorPreco: "O" })
+      res.json({ productId, menorPreco: "O" })
     } else {
       // Tem estoque do jogo na g2a
       if (response.data.data[0].seller.name !== 'Bestbuy86') {
@@ -434,7 +434,7 @@ const priceResearcher = async (req, res) => {
 
           const diferenca = segundoMenorPreco - nossoPreco;
           if (diferenca >= 0.1) {
-            menorPreco = segundoMenorPreco - 0.02;
+            menorPreco = segundoMenorPreco - 0.01;
             if (menorPreco < 0.57) {
               menorPreco = 0.57; // Garante que esse será o preço mínimo de venda(0.57 para ter pelo menos 0.01 de lucro)
             }
